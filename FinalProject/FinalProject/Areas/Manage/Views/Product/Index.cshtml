@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Product>
+@{ ViewData["Title"] = "Products";
+    int tableRow = (ViewBag.CurrentPage - 1) * 5;
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString(); }
+
+<!-- Main-body start -->
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-header start -->
+        <div class="page-header">
+            <div class="row align-items-end">
+                <div class="col-lg-3">
+                    <div class="page-header-title">
+                        <div class="d-inline">
+                            <h4>Products</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="page-header-breadcrumb">
+                        <ul class="breadcrumb-title">
+                            <li class="breadcrumb-item" style="float: left;">
+                                <a asp-area="manage" asp-controller="dashboard" asp-action="index"> <i class="feather icon-home"></i> </a>
+                            </li>
+                            <li class="breadcrumb-item" style="float: left;">
+                                <a href="#!">Products</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <form class="form-group">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="status" class="col-form-label">Show:</label>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" id="status" name="status">
+                                    @switch (ViewBag.Status)
+                                    {
+                                        case "all":
+                        <option value="all" selected>All</option>
+                                            <option value="active">Active</option>
+                                                                <option value="deleted">Deleted</option>
+ break;
+                                                            case "deleted":
+                                            <option value="all">All</option>
+                                                                <option value="active">Active</option>
+                                                                                    <option value="deleted" selected>Deleted</option>
+ break;
+                                                                                default:
+                                                                <option value="all">All</option>
+                                                                                    <option value="active" selected>Active</option>
+                                                                                                        <option value="deleted">Deleted</option>
+break;
+                                                                                                }
+
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-info">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <div class="d-grid">
+                        <a asp-area="manage" asp-controller="@controller" asp-action="create" asp-route-page="@ViewBag.CurrentPage" asp-route-status="@ViewBag.Status" class="btn btn-success" type="button">Create</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page-header end -->
+
+        <div class="page-body">
+
+            <!-- Large table start -->
+            <div class="card">
+                <div class="card-header"></div>
+
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Discount price</th>
+                                    <th>Status</th>
+                                    <th>Settings</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Product product in Model)
+                                {
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <div style="max-width: 100px;">
+                                <img src="~/assets/images/demos/demo23/products/@product.MainImage" class="img-thumbnail" />
+                            </div>
+                        </td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("0.00")</td>
+                        <td>@product.DiscountPrice?.ToString("0.00")</td>
+                        <td>
+                            @if (product.IsDeleted)
+                            {
+            <span class="text-danger">Deleted</span> }
+        else
+        {
+<span class="text-success">Active</span>}
+                        </td>
+                        <td>
+                            <a asp-area="manage" asp-controller="@controller" asp-action="detail" asp-route-id="@product.Id" asp-route-page="@ViewBag.CurrentPage" asp-route-status="@ViewBag.Status" class="btn btn-info" type="button">
+                                Details
+                            </a>
+                            @if (product.IsDeleted)
+                            {
+            <a asp-area="manage" asp-controller="@controller" asp-action="deleterestore" asp-route-id="@product.Id" asp-route-page="@ViewBag.CurrentPage" asp-route-status="@ViewBag.Status" class="btn btn-primary" type="button">
+                Restore
+            </a> }
+        else
+        {
+<a asp-area="manage" asp-controller="@controller" asp-action="update" asp-route-id="@product.Id" asp-route-page="@ViewBag.CurrentPage" asp-route-status="@ViewBag.Status" class="btn btn-warning" type="button">
+    Edit
+</a>
+                    <a asp-area="manage" asp-controller="@controller" asp-action="deleterestore" asp-route-id="@product.Id" asp-route-page="@ViewBag.CurrentPage" asp-route-status="@ViewBag.Status" class="btn btn-danger" type="button">
+                        Delete
+                    </a>}
+                        </td>
+
+                    </tr>}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Large table end -->
+
+        </div>
+    </div>
+</div>
+<!-- Main-body end -->

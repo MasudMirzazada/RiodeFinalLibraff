@@ -1,0 +1,131 @@
+﻿@model Product
+@{ ViewData["Title"] = "Products";
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString(); }
+
+<!-- Main-body start -->
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-header start -->
+        <div class="page-header">
+            <div class="row align-items-end">
+                <div class="col-lg-8">
+                    <div class="page-header-title">
+                        <div class="d-inline">
+                            <h4>Create new product</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="page-header-breadcrumb">
+                        <ul class="breadcrumb-title">
+                            <li class="breadcrumb-item" style="float: left;">
+                                <a asp-area="manage" asp-controller="dashboard" asp-action="index"> <i class="feather icon-home"></i> </a>
+                            </li>
+                            <li class="breadcrumb-item" style="float: left;">
+                                <a asp-area="manage" asp-controller="@controller" asp-action="index"> Products </a>
+                            </li>
+                            <li class="breadcrumb-item" style="float: left;">
+                                <a href="#!">Create</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page-header end -->
+
+        <div class="page-body">
+
+            <div class="card">
+                <div class="card-header"></div>
+
+                <div class="card-block">
+                    <form class="row g-3" novalidate="" method="post" enctype="multipart/form-data" autocomplete="off">
+                        <div class="col-md-12">
+                            <label asp-for="MainImageFile" class="form-label">Main Image *</label>
+                            <input asp-for="MainImageFile" class="form-control" accept="image/jpeg" required>
+                            <span asp-validation-for="MainImageFile" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                <ul>
+                                    <li>Content type: "image/jpeg"</li>
+                                    <li>Max size: 100 KB</li>
+                                </ul>
+                            </small>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="HoverImageFile" class="form-label">Hover Image *</label>
+                            <input asp-for="HoverImageFile" class="form-control" accept="image/jpeg" required>
+                            <span asp-validation-for="HoverImageFile" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                <ul>
+                                    <li>Content type: "image/jpeg"</li>
+                                    <li>Max size: 100 KB</li>
+                                </ul>
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label">Title *</label>
+                            <input asp-for="Name" class="form-control" required>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Price" class="form-label">Price *</label>
+                            <input asp-for="Price" class="form-control" required>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="DiscountPrice" class="form-label">Discount Price</label>
+                            <input asp-for="DiscountPrice" class="form-control">
+                            <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ExTax" class="form-label">Tax *</label>
+                            <input asp-for="ExTax" class="form-control" required>
+                            <span asp-validation-for="ExTax" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="Description" class="form-label">Description *</label>
+                            <textarea asp-for="Description" rows="5" class="form-control" required></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Gender" class="form-label">Gender *</label>
+                            @*<select asp-for="Gender" asp-items="@Html.GetEnumSelectList<GenderType>()" class="form-select" required>
+                            </select>*@
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <label asp-for="IsNewArrival" class="form-check-label">Tick if product is new arrival</label>
+                                <input asp-for="IsNewArrival" class="form-check-input">
+                                <span asp-validation-for="IsNewArrival" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- start -->
+                        @*<div class="col-md-12">
+                            <div class="controls">
+                                <div class="entry">*@
+                                    @*@await Html.PartialAsync("_ProductColourCountPartial")*@
+                                @*</div>
+
+                                <div class="col-12 d-grid gap-2 mt-4 mb-5 customButtons">
+                                    <a asp-controller="@controller" asp-action="addproduct" type="button" class="btn btn-outline-primary rounded-pill btn-add">Add other</a>
+                                </div>
+                            </div>
+                        </div>*@
+                        <!-- end -->
+
+
+
+                        <div class="col-12 d-grid gap-2 mt-3">
+                            <button class="btn btn-success" type="submit">Create</button>
+                            <a asp-area="manage" asp-controller="@controller" asp-action="index" class="btn btn-info">Go back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Main-body end -->

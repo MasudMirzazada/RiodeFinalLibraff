@@ -1,0 +1,18 @@
+﻿@model LoginVM
+<section id="login">
+    <div class="container">
+        <div class="row login">
+            <form method="post" enctype="multipart/form-data" id="loginForm">
+                <input asp-for="Email" placeholder="Email">
+                <input asp-for="Password" placeholder="Password">
+                <button type="submit" class="viewshopAbutton">Sign in</button>
+                <hr>
+                <div class="links">
+                    <a href="">Forgot your password?</a>
+                    <a href="">Create account</a>
+                    <a href="">Return to Store</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

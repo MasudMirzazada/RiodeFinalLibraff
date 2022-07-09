@@ -1,0 +1,233 @@
+﻿@model MemberProfileVM
+@{
+    ViewData["Title"] = "Profile";
+    int orderCount = 0;
+    int orderItemCount = 0;
+    double totalOrderItem = 0;
+    foreach (var item in Model.Orders)
+    {
+        foreach (var item1 in item.OrderItems)
+        {
+            totalOrderItem = item1.TotalPrice;
+        }
+    }
+}
+
+<main>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area bg-img" data-bg="assets/img/banner/breadcrumb-banner.jpg" style="background-image: url(&quot;assets/img/banner/breadcrumb-banner.jpg&quot;);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap text-center">
+                        <nav aria-label="breadcrumb">
+                            <h1 class="breadcrumb-title">My Account</h1>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+    <!-- my account wrapper start -->
+    <div class="my-account-wrapper section-padding">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- My Account Page Start -->
+                    <div class="myaccount-page-wrapper">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="#dashboad" class="active" data-toggle="dashboad">
+                                        <i class="fa fa-dashboard"></i>
+                                        Dashboard
+                                    </a>
+                                    <a href="#orders" data-toggle="orders"><i class="fa fa-cart-arrow-down"></i> Orders</a>
+                                    <a href="#download" data-toggle="download"><i class="fa fa-cloud-download"></i> Download</a>
+                                    <a href="#payment-method" data-toggle="payment-method">
+                                        <i class="fa fa-credit-card"></i> Payment
+                                        Method
+                                    </a>
+                                    <a href="#address-edit" data-toggle="address-edit"><i class="fa fa-map-marker"></i> address</a>
+                                    <a href="#account-info" data-toggle="account-info"><i class="fa fa-user"></i> Account Details</a>
+                                    <a href="login-register.html" data-toggle=""><i class="fa fa-sign-out"></i> Logout</a>
+                                </div>
+                            </div>
+                            <!-- My Account Tab Menu End -->
+                            <!-- My Account Tab Content Start -->
+                            <div class="col-lg-9 col-md-8">
+                                <div class="tab-content" id="myaccountContent">
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade show active" id="dashboad" data-toggle="dashboad" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Dashboard</h3>
+                                            <div class="welcome">
+                                                <p>Hello, <strong>Alex Tuntuni</strong> (If Not <strong>Tuntuni !</strong><a href="login-register.html" class="logout"> Logout</a>)</p>
+                                            </div>
+                                            <p class="mb-0">From your account dashboard. you can easily check &amp; view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="orders" data-toggle="orders" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Orders</h3>
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Order</th>
+                                                            <th>User</th>
+                                                            <th>Product Count</th>
+                                                            <th>Total</th>
+                                                            @*<th>Date</th>*@
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.Orders)
+                                                        {
+                                                            orderCount++;
+                                                            orderItemCount = 0;
+                                                            <tr data-toggle="collapse" data-target="#demo@(orderCount)" class="accordion-toggle openCloseOrderItem">
+                                                                <td>@orderCount</td>
+                                                                <td>@item.AppUser.FullName</td>
+                                                                <td>@item.OrderItems.Count()</td>
+                                                                <td>@item.OrderItems.Sum(o => o.TotalPrice)</td>
+                                                                <td>@*@item.CreatedDate?.ToString("MMMM dd, yyyy")*@</td>
+                                                                <td>@item.Status</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="12" class="hiddenRow">
+                                                                    <div class="accordian-body collapse" id="demo@(orderCount)" style="opacity: 1;">
+                                                                        <table class="table table-striped">
+                                                                            <thead>
+                                                                                <tr class="info">
+                                                                                    <th>#</th>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Count</th>
+                                                                                    <th>Total Price</th>
+                                                                                    <th>Price</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var orderItem in item.OrderItems)
+                                                                                {
+                                                                                    orderItemCount++;
+                                                                                    <tr data-toggle="collapse" class="accordion-toggle">
+                                                                                        <td>@orderItemCount</td>
+                                                                                        <td>@orderItem.Product.Name</td>
+                                                                                        <td>@orderItem.Count</td>
+                                                                                        <td>@orderItem.Price</td>
+                                                                                        <td>@orderItem.TotalPrice</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="download" data-toggle="download" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Downloads</h3>
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>Date</th>
+                                                            <th>Expire</th>
+                                                            <th>Download</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Haven - Free Real Estate PSD Template</td>
+                                                            <td>Aug 22, 2018</td>
+                                                            <td>Yes</td>
+                                                            <td><a href="#" class="btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>HasTech - Profolio Business Template</td>
+                                                            <td>Sep 12, 2018</td>
+                                                            <td>Never</td>
+                                                            <td><a href="#" class="btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="payment-method" data-toggle="payment-method" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Payment Method</h3>
+                                            <p class="saved-message">You Can't Saved Your Payment Method yet.</p>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="address-edit" data-toggle="address-edit" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Billing Address</h3>
+                                            <address>
+                                                <p><strong>Alex Tuntuni</strong></p>
+                                                <p>
+                                                    1355 Market St, Suite 900 <br>
+                                                    San Francisco, CA 94103
+                                                </p>
+                                                <p>Mobile: (123) 456-7890</p>
+                                            </address>
+                                            <a class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address</a>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="account-info" data-toggle="account-info" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3>Account Details</h3>
+                                            <div class="account-details-form">
+
+                                                @await Html.PartialAsync("_ProfileFormPartial", Model.Member)
+                                            </div>
+                                        </div>
+                                    </div> <!-- Single Tab Content End -->
+                                </div>
+                            </div> <!-- My Account Tab Content End -->
+                        </div>
+                    </div> <!-- My Account Page End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- my account wrapper end -->
+</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".openCloseOrderItem", function () {
+            $(this).next().find(".accordian-body").slideToggle();
+            $(this).next().find(".accordian-body").css({
+                "opacity": "1",
+                "display":"block"
+            });
+        })
+    })
+</script>
